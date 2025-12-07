@@ -135,7 +135,7 @@ const updateBookings = async (
       `UPDATE Vehicles SET availability_status='available' WHERE id=$1`,
       [booking.vehicle_id]
     );
-    return updatedRes;
+    return {booking:updatedRes.rows[0],vehicle:null};
   }
   
   // admin
@@ -144,15 +144,12 @@ const updateBookings = async (
       id,
     ]);
 
-    if (bookingRes.rowCount === 0) {
+    if (bookingRes.rows.length === 0) {
       throw new Error("Booking not found.");
     }
 
     const booking = bookingRes.rows[0];
 
-    if (booking.customer_id !== loggedUser.id) {
-      throw new Error("You are not allowed to update this booking.");
-    }
 
     if (status !== "returned") {
       throw new Error("Admin can only return their bookings.");
@@ -175,12 +172,24 @@ const updateBookings = async (
       `UPDATE Vehicles SET availability_status='available' WHERE id=$1 RETURNING *`,
       [booking.vehicle_id]
     );
-    return {updatedRes,vehicleRes};
+    return {booking:updatedRes.rows[0],vehicle:vehicleRes.rows[0].availability_status};
   }
 };
+
+const autoReturn =async()=>{
+  const expiredBookings = await pool.query(`SELECT * FROM Bookings WHERE status=$1 AND rent_end_date<CURRENT_DATE`,["active"]);
+
+  for(const expiredBooking of expiredBookings.rows){
+    await pool.query(`UPDATE Bookings SET status=$1 WHERE id=$2 `,["returned",expiredBooking.id])
+
+    await pool.query(`UPDATE Vehicles SET availability_status=$1 WHERE id=$2`,["available",expiredBooking.vehicle_id])
+  }
+  return expiredBookings.rows.length
+}
 
 export const bookingServices = {
   createBookings,
   getAllBookings,
   updateBookings,
+  autoReturn 
 };

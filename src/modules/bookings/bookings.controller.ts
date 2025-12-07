@@ -26,6 +26,9 @@ const createBookings = async (req: Request, res: Response) => {
 };
 const getAllBookings = async (req: Request, res: Response) => {
   try {
+
+    await bookingServices.autoReturn ()
+
     const results = await bookingServices.getAllBookings(req.user!);
 
     res.status(200).json({
@@ -44,14 +47,13 @@ const getAllBookings = async (req: Request, res: Response) => {
 const updateBookings = async (req: Request, res: Response) => {
   const status =req.body.status
   try {
-    const results = await bookingServices.updateBookings(status,req.user!,req.params.id!);
+    const results = await bookingServices.updateBookings(status,req.user!,req.params.bookingId!);
     console.log(results)
 
     res.status(200).json({
       success: true,
       message: "Booking updated  successfully",
-      
-      
+      data:results
     });
   } catch (error: any) {
     res.status(500).json({
