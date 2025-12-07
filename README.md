@@ -4,7 +4,7 @@
 
 ## 🚀 Live
 
-🔗 [Live Site](https://we-fit-838bc.web.app/)
+🔗 [Live Site](https://assignment-2-alpha-silk.vercel.app/)
 
 🔐 **Admin Login:**
 
