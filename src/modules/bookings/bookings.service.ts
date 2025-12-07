@@ -79,7 +79,7 @@ const getAllBookings = async (loggedUser: JwtPayload) => {
       );
       const customerRes = await pool.query(
         `SELECT name, email FROM Users WHERE id=$1`,
-        [booking.vehicle_id]
+        [booking.customer_id]
       );
       finalResult.push({
         ...booking,

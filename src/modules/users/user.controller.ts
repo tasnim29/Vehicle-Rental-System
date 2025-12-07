@@ -34,9 +34,11 @@ const updateUser = async (req: Request, res: Response) => {
       return res.status(200).json({
         success: true,
         message: "No vehicles found",
-        data: result.rows[0],
+        data: [],
       });
     }
+
+    delete result.rows[0].password;
 
     res.status(200).json({
       success: true,
