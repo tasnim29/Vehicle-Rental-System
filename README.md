@@ -27,11 +27,11 @@
 
 ## 🛠️ Technology Stack
 
--Node.js + TypeScript
--Express.js (web framework)
--PostgreSQL (database)
--bcrypt (password hashing)
--jsonwebtoken (JWT authentication)
+- Node.js + TypeScript
+- Express.js (web framework)
+- PostgreSQL (database)
+- bcrypt (password hashing)
+- jsonwebtoken (JWT authentication)
 
 ## 📦 Setup & Usage Instructions
 
@@ -61,10 +61,3 @@ JWT_SECRET=your_jwt_secret
 #### © 2025 Vehicle Rental System — Built by Tasnim Mahmud
 
 ---
-
-Would you like me to generate a **downloadable README.md file** or help with the **repository link setup** too?
-
-```
-
-
-```
