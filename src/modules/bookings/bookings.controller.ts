@@ -24,6 +24,44 @@ const createBookings = async (req: Request, res: Response) => {
     });
   }
 };
+const getAllBookings = async (req: Request, res: Response) => {
+  try {
+    const results = await bookingServices.getAllBookings(req.user!);
+
+    res.status(200).json({
+      success: true,
+      message: "Booking retrieved  successfully",
+      data:results
+      
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+const updateBookings = async (req: Request, res: Response) => {
+  const status =req.body.status
+  try {
+    const results = await bookingServices.updateBookings(status,req.user!,req.params.id!);
+    console.log(results)
+
+    res.status(200).json({
+      success: true,
+      message: "Booking updated  successfully",
+      
+      
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
 export const bookingControllers = {
-  createBookings,
+  createBookings,getAllBookings,updateBookings
 };
